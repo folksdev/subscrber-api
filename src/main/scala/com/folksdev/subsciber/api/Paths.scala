@@ -1,20 +1,19 @@
 package com.folksdev.subsciber.api
 
-import akka.actor.typed.ActorSystem
-
-import akka.http.scaladsl.Http
+import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.Directives._
 
-trait Paths {
+trait Paths extends ApiPath {
 
-  implicit def actorSystem: ActorSystem[Any]
+  val topicPaths: ApiPath = new TopicPaths()
 
-  val route =
+  override def routes: Route = concat(
     path("hello") {
       get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Subscriber Api With Akka Http</h1>"))
       }
-    }
+    },
+    topicPaths.routes
+  )
 
 }

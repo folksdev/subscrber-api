@@ -3,16 +3,16 @@ package com.folksdev.subsciber
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.javadsl.Behaviors
 import akka.http.scaladsl.Http
-import com.folksdev.subsciber.api.Paths
+import com.folksdev.subsciber.api.{Paths, TopicPaths}
 
 import scala.io.StdIn
 
-trait Bootstrap extends Paths{
-  override implicit def actorSystem: ActorSystem[Any] = ActorSystem(Behaviors.empty, "subscriber-api")
+trait Bootstrap extends Paths {
+  implicit def actorSystem: ActorSystem[Any] = ActorSystem(Behaviors.empty, "subscriber-api")
 
   implicit val executionContext = actorSystem.executionContext
 
-  val bindingFuture = Http().newServerAt("localhost", 8080).bind(route)
+  val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
 
   println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
   StdIn.readLine() // let it run until user presses return
