@@ -1,10 +1,11 @@
 package com.folksdev.subsciber.api
 
 import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.model._
+import com.github.swagger.akka.SwaggerSite
 
-class Paths(apiPaths: Seq[ApiPath]) extends ApiPath {
+class Paths(apiPaths: Seq[ApiPath]) extends ApiPath  with SwaggerSite {
 
-  override def routes: Route = concat(apiPaths.map(_.routes):_*)
+  override def routes: Route = concat(apiPaths.map(_.routes): _*) ~ swaggerSiteRoute
+
 
 }
